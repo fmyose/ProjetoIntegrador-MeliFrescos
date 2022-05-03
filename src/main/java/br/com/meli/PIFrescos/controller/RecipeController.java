@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -51,7 +50,7 @@ public class RecipeController {
     }
 
     @DeleteMapping("")
-    public ResponseEntity<String> delete(@PathVariable Integer recipeId) {
+    public ResponseEntity<String> delete(@RequestParam Integer recipeId) {
         recipeService.removeById(recipeId);
 
         return new ResponseEntity<>("Deleted", HttpStatus.ACCEPTED);

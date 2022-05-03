@@ -5,7 +5,9 @@ import br.com.meli.PIFrescos.models.OrderStatus;
 import br.com.meli.PIFrescos.models.ProductsCart;
 import br.com.meli.PIFrescos.models.PurchaseOrder;
 import br.com.meli.PIFrescos.models.Recipe;
+import br.com.meli.PIFrescos.models.RecipePurchaseOrder;
 import br.com.meli.PIFrescos.models.User;
+import br.com.meli.PIFrescos.repository.RecipePurchaseOrderRepository;
 import br.com.meli.PIFrescos.service.interfaces.IBatchService;
 import br.com.meli.PIFrescos.service.interfaces.IPurchaseByRecipeService;
 import br.com.meli.PIFrescos.service.interfaces.IPurchaseOrderService;
@@ -19,7 +21,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class PurchaseByRecipeService implements IPurchaseByRecipeService {
+public class RecipePurchaseOrderService implements IPurchaseByRecipeService {
+
+    @Autowired
+    RecipePurchaseOrderRepository recipePurchaseOrderRepository;
 
     @Autowired
     IRecipeService recipeService;
@@ -31,14 +36,12 @@ public class PurchaseByRecipeService implements IPurchaseByRecipeService {
     IPurchaseOrderService purchaseOrderService;
 
     @Override
-    public PurchaseOrder purchase(Integer recipeId, User userLogged) {
+    public RecipePurchaseOrder purchase(Integer recipeId, User userLogged) {
 
         Recipe recipe = recipeService.findById(recipeId);
 
-        recipe.getIngredients();
         // para cada ingrediente, ver se existe um batch que satisfaz a compra
         List<ProductsCart> productsCarts = new ArrayList<>();
-
         recipe.getIngredients().forEach(ingredient -> {
             Integer productId = ingredient.getProduct().getProductId();
             Integer quantity = ingredient.getQuantity();
@@ -53,13 +56,21 @@ public class PurchaseByRecipeService implements IPurchaseByRecipeService {
             productsCarts.add(productsCart);
         });
 
-        PurchaseOrder purchaseOrder = new PurchaseOrder();
-        purchaseOrder.setUser(userLogged);
-        purchaseOrder.setOrderStatus(OrderStatus.OPENED);
-        purchaseOrder.setDate(LocalDate.now());
-        purchaseOrder.setCartList(productsCarts);
+        // salvar a ordem de compra antes de salvar a compra pola receita
+        PurchaseOrder purchaseOrder = PurchaseOrder.builder()
+                .user(userLogged)
+                .orderStatus(OrderStatus.OPENED)
+                .date(LocalDate.now())
+                .cartList(productsCarts)
+                .build();
+        purchaseOrderService.save(purchaseOrder);
 
-        return purchaseOrderService.save(purchaseOrder);
+        RecipePurchaseOrder recipePurchaseOrder = RecipePurchaseOrder.builder()
+                .recipe(recipe)
+                .purchaseOrder(purchaseOrder)
+                .build();
+
+        return recipePurchaseOrderRepository.save(recipePurchaseOrder);
     }
 
     @Override
