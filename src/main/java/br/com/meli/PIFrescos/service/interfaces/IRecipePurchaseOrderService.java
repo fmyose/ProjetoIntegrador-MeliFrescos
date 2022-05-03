@@ -6,7 +6,7 @@ import br.com.meli.PIFrescos.models.User;
 
 import java.math.BigDecimal;
 
-public interface IPurchaseByRecipeService {
+public interface IRecipePurchaseOrderService {
 
     RecipePurchaseOrder purchase(Integer recipeId, User userLogged);
 

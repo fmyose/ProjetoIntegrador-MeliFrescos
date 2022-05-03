@@ -12,10 +12,10 @@ import java.util.List;
 public class RecipeForm {
 
     private String name;
-    private List<IngredientDTO> ingredients;
+    private List<IngredientForm> ingredients;
 
     public static Recipe convert(RecipeForm recipeForm) {
-        List<RecipeIngredient> ingredients = IngredientDTO.convert(recipeForm.getIngredients());
+        List<RecipeIngredient> ingredients = IngredientForm.convert(recipeForm.getIngredients());
         return new Recipe(null, recipeForm.getName(), ingredients);
     }
 }

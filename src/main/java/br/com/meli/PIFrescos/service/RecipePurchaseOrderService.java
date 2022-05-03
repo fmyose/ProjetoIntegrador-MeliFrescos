@@ -9,8 +9,8 @@ import br.com.meli.PIFrescos.models.RecipePurchaseOrder;
 import br.com.meli.PIFrescos.models.User;
 import br.com.meli.PIFrescos.repository.RecipePurchaseOrderRepository;
 import br.com.meli.PIFrescos.service.interfaces.IBatchService;
-import br.com.meli.PIFrescos.service.interfaces.IPurchaseByRecipeService;
 import br.com.meli.PIFrescos.service.interfaces.IPurchaseOrderService;
+import br.com.meli.PIFrescos.service.interfaces.IRecipePurchaseOrderService;
 import br.com.meli.PIFrescos.service.interfaces.IRecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class RecipePurchaseOrderService implements IPurchaseByRecipeService {
+public class RecipePurchaseOrderService implements IRecipePurchaseOrderService {
 
     @Autowired
     RecipePurchaseOrderRepository recipePurchaseOrderRepository;

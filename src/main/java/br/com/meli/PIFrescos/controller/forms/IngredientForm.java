@@ -10,22 +10,22 @@ import java.util.stream.Collectors;
 
 @Getter
 @Setter
-public class IngredientDTO {
+public class IngredientForm {
 
     private Integer productId;
     private Integer quantity;
 
-    public static RecipeIngredient convert(IngredientDTO ingredientDTO) {
+    public static RecipeIngredient convert(IngredientForm ingredientForm) {
         Product product = new Product();
-        product.setProductId(ingredientDTO.getProductId());
-        return new RecipeIngredient(null, product, ingredientDTO.getQuantity());
+        product.setProductId(ingredientForm.getProductId());
+        return new RecipeIngredient(null, product, ingredientForm.getQuantity());
     }
 
-    public static List<RecipeIngredient> convert(List<IngredientDTO> ingredientDTOS) {
-        if (ingredientDTOS.size() == 0) {
+    public static List<RecipeIngredient> convert(List<IngredientForm> ingredientForms) {
+        if (ingredientForms.size() == 0) {
             throw new RuntimeException("No ingredient items in list.");
         }
-        return ingredientDTOS.stream().map(ingredientDTO -> IngredientDTO.convert(ingredientDTO))
+        return ingredientForms.stream().map(ingredientForm -> IngredientForm.convert(ingredientForm))
                 .collect(Collectors.toList());
     }
 }
