@@ -32,9 +32,7 @@ public class RecipePurchaseOrderController {
     public ResponseEntity<TotalPriceDTO> purchase(@RequestParam Integer recipeId) {
         RecipePurchaseOrder recipePurchaseOrder = recipePurchaseOrderService.purchase(recipeId, tokenService.getUserLogged());
 
-        BigDecimal totalPrice = recipePurchaseOrderService.calculateTotalPrice(recipePurchaseOrder.getPurchaseOrder());
-
-        return new ResponseEntity<>(new TotalPriceDTO(totalPrice), HttpStatus.CREATED);
+        return new ResponseEntity<>(new TotalPriceDTO(recipePurchaseOrder.getTotalPrice()), HttpStatus.CREATED);
     }
 
     @GetMapping("")
@@ -42,11 +40,9 @@ public class RecipePurchaseOrderController {
         List<RecipePurchaseOrder> recipePurchaseOrders = recipePurchaseOrderService.getOpenedOrder();
 
         List<RecipePurchaseOrderDTO> dtos = new ArrayList<>();
-        recipePurchaseOrders.forEach(recipePurchaseOrder -> {
-            RecipePurchaseOrderDTO dto = RecipePurchaseOrderDTO.convert(recipePurchaseOrder);
-            dto.setTotalPrice(recipePurchaseOrderService.calculateTotalPrice(recipePurchaseOrder.getPurchaseOrder()));
-            dtos.add(dto);
-        });
+
+        recipePurchaseOrders.stream().forEach(recipePurchaseOrder ->
+                dtos.add(RecipePurchaseOrderDTO.convert(recipePurchaseOrder)));
 
         return ResponseEntity.ok(dtos);
     }

@@ -28,6 +28,7 @@ public class RecipePurchaseOrderDTO {
       return RecipePurchaseOrderDTO.builder()
               .recipeName(recipePurchaseOrder.getRecipe().getName())
               .ingredients(IngredientForm.convertToDTO(recipePurchaseOrder.getRecipe().getIngredients()))
+              .totalPrice(recipePurchaseOrder.getTotalPrice())
               .build();
    }
 }

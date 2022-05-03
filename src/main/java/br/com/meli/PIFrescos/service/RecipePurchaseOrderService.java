@@ -63,11 +63,15 @@ public class RecipePurchaseOrderService implements IRecipePurchaseOrderService {
                 .date(LocalDate.now())
                 .cartList(productsCarts)
                 .build();
+
+        BigDecimal totalPrice = calculateTotalPrice(purchaseOrder);
+
         purchaseOrderService.save(purchaseOrder);
 
         RecipePurchaseOrder recipePurchaseOrder = RecipePurchaseOrder.builder()
                 .recipe(recipe)
                 .purchaseOrder(purchaseOrder)
+                .totalPrice(totalPrice)
                 .build();
 
         return recipePurchaseOrderRepository.save(recipePurchaseOrder);

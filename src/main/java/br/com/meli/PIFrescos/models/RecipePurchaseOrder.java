@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import java.math.BigDecimal;
 
 @Entity
 @Setter
@@ -30,4 +31,5 @@ public class RecipePurchaseOrder {
     @OneToOne
     private Recipe recipe;
 
+    private BigDecimal totalPrice;
 }
