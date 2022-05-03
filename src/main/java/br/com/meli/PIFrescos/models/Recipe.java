@@ -27,6 +27,6 @@ public class Recipe {
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private List<Ingredient> ingredients;
+    private List<RecipeIngredient> ingredients;
 
 }
