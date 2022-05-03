@@ -79,8 +79,8 @@ public class RecipePurchaseOrderService implements IRecipePurchaseOrderService {
     }
 
     @Override
-    public RecipePurchaseOrder getOpenedOrder() {
-        RecipePurchaseOrder recipePurchaseOrder =
+    public List<RecipePurchaseOrder> getOpenedOrder() {
+        List<RecipePurchaseOrder> recipePurchaseOrder =
                 recipePurchaseOrderRepository.findRecipePurchaseOrderByPurchaseOrder_OrderStatus(OrderStatus.OPENED);
 
         return recipePurchaseOrder;

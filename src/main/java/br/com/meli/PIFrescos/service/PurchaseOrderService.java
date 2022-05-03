@@ -48,6 +48,11 @@ public class PurchaseOrderService implements IPurchaseOrderService {
         } catch (EntityNotFoundException e) {
             System.out.println("Creating new purchaseorder");
         }
+        if (oldPurchaseOrder != null && oldPurchaseOrder.getCartList().size() > 0) {
+            oldPurchaseOrder.getCartList().stream().forEach(productsCart -> purchaseOrder.getCartList().add(productsCart));
+        }
+
+        // TODO aqui os batchs estão "duplicados" caso comprado 2x. tentar unificar
 
         //encontrar o batch
         purchaseOrder.getCartList().forEach(productsCart -> {

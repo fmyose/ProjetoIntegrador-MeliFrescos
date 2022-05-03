@@ -5,6 +5,7 @@ import br.com.meli.PIFrescos.models.RecipePurchaseOrder;
 import br.com.meli.PIFrescos.models.User;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public interface IRecipePurchaseOrderService {
 
@@ -12,5 +13,5 @@ public interface IRecipePurchaseOrderService {
 
     BigDecimal calculateTotalPrice(PurchaseOrder purchaseOrder);
 
-    RecipePurchaseOrder getOpenedOrder();
+    List<RecipePurchaseOrder> getOpenedOrder();
 }

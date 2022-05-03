@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/fresh-products/recipe/purchase")
@@ -36,15 +38,17 @@ public class RecipePurchaseOrderController {
     }
 
     @GetMapping("")
-    public ResponseEntity<RecipePurchaseOrderDTO> getRecipePurchase() {
+    public ResponseEntity<List<RecipePurchaseOrderDTO>> getRecipePurchase() {
+        List<RecipePurchaseOrder> recipePurchaseOrders = recipePurchaseOrderService.getOpenedOrder();
 
-        RecipePurchaseOrder recipePurchaseOrder = recipePurchaseOrderService.getOpenedOrder();
+        List<RecipePurchaseOrderDTO> dtos = new ArrayList<>();
+        recipePurchaseOrders.forEach(recipePurchaseOrder -> {
+            RecipePurchaseOrderDTO dto = RecipePurchaseOrderDTO.convert(recipePurchaseOrder);
+            dto.setTotalPrice(recipePurchaseOrderService.calculateTotalPrice(recipePurchaseOrder.getPurchaseOrder()));
+            dtos.add(dto);
+        });
 
-        RecipePurchaseOrderDTO dto = RecipePurchaseOrderDTO.convert(recipePurchaseOrder);
-        dto.setTotalPrice(recipePurchaseOrderService.calculateTotalPrice(recipePurchaseOrder.getPurchaseOrder()));
-
-        return ResponseEntity.ok(dto);
-
+        return ResponseEntity.ok(dtos);
     }
 
 }
