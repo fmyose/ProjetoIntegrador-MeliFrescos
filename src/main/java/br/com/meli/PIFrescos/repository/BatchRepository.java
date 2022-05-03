@@ -41,4 +41,6 @@ public interface BatchRepository extends JpaRepository<Batch, Integer> {
             "where b.product_product_id = :productId " +
             "group by w.warehouse_code, p.product_name")
     List<WarehouseQuantityDTO> getQuantityProductByWarehouse(@Param("productId") Integer productId);
+
+    List<Batch> findBatchesByProduct_ProductIdAndCurrentQuantityGreaterThanEqual(Integer productId, Integer quantity);
 }
