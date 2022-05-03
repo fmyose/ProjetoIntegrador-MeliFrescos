@@ -2,6 +2,7 @@ package br.com.meli.PIFrescos.controller.forms;
 
 import br.com.meli.PIFrescos.models.RecipeIngredient;
 import br.com.meli.PIFrescos.models.Product;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,7 @@ import java.util.stream.Collectors;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class IngredientForm {
 
     private Integer productId;
@@ -26,6 +28,15 @@ public class IngredientForm {
             throw new RuntimeException("No ingredient items in list.");
         }
         return ingredientForms.stream().map(ingredientForm -> IngredientForm.convert(ingredientForm))
+                .collect(Collectors.toList());
+    }
+
+    public static IngredientForm convertToDTO(RecipeIngredient ingredient) {
+        return new IngredientForm(ingredient.getProduct().getProductId(), ingredient.getQuantity());
+    }
+
+    public static List<IngredientForm> convertToDTO(List<RecipeIngredient> ingredients) {
+        return ingredients.stream().map(ingredient -> IngredientForm.convertToDTO(ingredient))
                 .collect(Collectors.toList());
     }
 }

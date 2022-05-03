@@ -11,4 +11,6 @@ public interface IRecipePurchaseOrderService {
     RecipePurchaseOrder purchase(Integer recipeId, User userLogged);
 
     BigDecimal calculateTotalPrice(PurchaseOrder purchaseOrder);
+
+    RecipePurchaseOrder getOpenedOrder();
 }

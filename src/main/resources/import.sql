@@ -39,6 +39,7 @@ INSERT INTO batch(current_temperature, minimum_temperature, unit_price, initial_
 INSERT INTO batch(current_temperature, minimum_temperature, unit_price, initial_quantity, current_quantity, manufacturing_date, due_date, inbound_order_order_number, product_product_id) VALUES (15, 10, 2, 5, 5, '2022-03-25', '2022-04-25', 2, 2);
 -- REFRIGERATED
 INSERT INTO batch(current_temperature, minimum_temperature, unit_price, initial_quantity, current_quantity, manufacturing_date, due_date, inbound_order_order_number, product_product_id) VALUES (10, 8, 2, 5, 5, '2022-03-25', '2022-04-25', 3, 4);
+INSERT INTO batch(current_temperature, minimum_temperature, unit_price, initial_quantity, current_quantity, manufacturing_date, due_date, inbound_order_order_number, product_product_id) VALUES (10, 8, 2, 5, 5, '2022-03-25', '2022-04-25', 3, 6);
 -- FROZEN
 INSERT INTO batch(current_temperature, minimum_temperature, unit_price, initial_quantity, current_quantity, manufacturing_date, due_date, inbound_order_order_number, product_product_id) VALUES (-15, -20, 2, 5, 5, '2022-03-25', '2022-04-25', 4, 7);
 -- BATCHS OF WAREHOUSE 2

@@ -78,4 +78,12 @@ public class RecipePurchaseOrderService implements IRecipePurchaseOrderService {
         return purchaseOrderService.calculateTotalPrice(purchaseOrder);
     }
 
+    @Override
+    public RecipePurchaseOrder getOpenedOrder() {
+        RecipePurchaseOrder recipePurchaseOrder =
+                recipePurchaseOrderRepository.findRecipePurchaseOrderByPurchaseOrder_OrderStatus(OrderStatus.OPENED);
+
+        return recipePurchaseOrder;
+    }
+
 }

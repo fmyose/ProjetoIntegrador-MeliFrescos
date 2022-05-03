@@ -1,6 +1,7 @@
 package br.com.meli.PIFrescos.controller;
 
 import br.com.meli.PIFrescos.config.security.TokenService;
+import br.com.meli.PIFrescos.controller.dtos.RecipePurchaseOrderDTO;
 import br.com.meli.PIFrescos.controller.dtos.TotalPriceDTO;
 import br.com.meli.PIFrescos.models.RecipePurchaseOrder;
 import br.com.meli.PIFrescos.service.interfaces.IRecipePurchaseOrderService;
@@ -32,6 +33,18 @@ public class RecipePurchaseOrderController {
         BigDecimal totalPrice = recipePurchaseOrderService.calculateTotalPrice(recipePurchaseOrder.getPurchaseOrder());
 
         return new ResponseEntity<>(new TotalPriceDTO(totalPrice), HttpStatus.CREATED);
+    }
+
+    @GetMapping("")
+    public ResponseEntity<RecipePurchaseOrderDTO> getRecipePurchase() {
+
+        RecipePurchaseOrder recipePurchaseOrder = recipePurchaseOrderService.getOpenedOrder();
+
+        RecipePurchaseOrderDTO dto = RecipePurchaseOrderDTO.convert(recipePurchaseOrder);
+        dto.setTotalPrice(recipePurchaseOrderService.calculateTotalPrice(recipePurchaseOrder.getPurchaseOrder()));
+
+        return ResponseEntity.ok(dto);
+
     }
 
 }
