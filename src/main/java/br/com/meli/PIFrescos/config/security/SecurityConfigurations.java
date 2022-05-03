@@ -61,7 +61,8 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 			//Warehouse
 			.antMatchers("/fresh-products/warehouse").hasAnyAuthority("SUPERVISOR", "ADMIN")
 			.antMatchers("/fresh-products/warehouse/*").hasAnyAuthority("SUPERVISOR", "ADMIN")
-
+			// Recipe
+			.antMatchers("/fresh-products/recipe*").hasAnyAuthority("SUPERVISOR", "ADMIN")
 
 		.anyRequest().authenticated()
 		.and().csrf().disable()
