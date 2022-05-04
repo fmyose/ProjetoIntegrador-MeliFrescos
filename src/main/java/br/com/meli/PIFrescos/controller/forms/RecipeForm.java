@@ -2,6 +2,7 @@ package br.com.meli.PIFrescos.controller.forms;
 
 import br.com.meli.PIFrescos.models.RecipeIngredient;
 import br.com.meli.PIFrescos.models.Recipe;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +10,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class RecipeForm {
 
     private String name;
