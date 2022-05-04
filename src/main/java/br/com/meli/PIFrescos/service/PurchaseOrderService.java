@@ -48,12 +48,6 @@ public class PurchaseOrderService implements IPurchaseOrderService {
         } catch (EntityNotFoundException e) {
             System.out.println("Creating new purchaseorder");
         }
-        if (oldPurchaseOrder != null && oldPurchaseOrder.getCartList().size() > 0) {
-            oldPurchaseOrder.getCartList().stream().forEach(productsCart -> purchaseOrder.getCartList().add(productsCart));
-        }
-
-        // unifica ProductsCart de batches iguais, caso tenha
-        purchaseOrder.setCartList(dedupProductCartList(purchaseOrder.getCartList()));
 
         //encontrar o batch
         purchaseOrder.getCartList().forEach(productsCart -> {
@@ -85,7 +79,7 @@ public class PurchaseOrderService implements IPurchaseOrderService {
 
         batches.forEach(batch -> {
             // pegar ProductsCart com batches iguais
-            List<ProductsCart> productsCarts = productsCartList.stream().filter(productsCart -> productsCart.getBatch() == batch)
+            List<ProductsCart> productsCarts = productsCartList.stream().filter(productsCart -> productsCart.getBatch().getBatchNumber() == batch.getBatchNumber())
                     .collect(Collectors.toList());
             // somar a quantidade
             Integer totalQuantity = productsCarts.stream().mapToInt(productCart -> productCart.getQuantity()).sum();
