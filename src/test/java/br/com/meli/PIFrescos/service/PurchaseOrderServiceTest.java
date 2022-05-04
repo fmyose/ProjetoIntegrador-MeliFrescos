@@ -91,11 +91,11 @@ public class PurchaseOrderServiceTest {
 
         productsCart1.setId(1);
         productsCart1.setBatch(mockBatch1);
-        productsCart1.setQuantity(5);
+        productsCart1.setQuantity(2);
 
         productsCart2.setId(2);
         productsCart2.setBatch(mockBatch2);
-        productsCart2.setQuantity(9);
+        productsCart2.setQuantity(2);
 
         productsCartList = new ArrayList<>(Arrays.asList(productsCart1, productsCart2));
 
@@ -298,7 +298,7 @@ public class PurchaseOrderServiceTest {
     void shouldReturnTotalPriceOfAnOrder() {
         BigDecimal totalPrice = purchaseOrderService.calculateTotalPrice(purchaseOrder);
 
-        assertThat(totalPrice).isEqualTo(BigDecimal.valueOf(275.0));
+        assertThat(totalPrice).isEqualTo(BigDecimal.valueOf(70.0));
     }
 
     /**
