@@ -18,4 +18,6 @@ public interface IRecipeService {
     void removeById(Integer id);
 
     Recipe findById(Integer recipeId);
+
+    Recipe findByName(String recipeName);
 }

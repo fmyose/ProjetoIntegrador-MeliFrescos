@@ -86,8 +86,7 @@ class RecipePurchaseOrderServiceTest {
         Mockito.when(purchaseOrderService.save(any())).thenReturn(purchaseOrder);
         Mockito.when(recipePurchaseOrderRepository.save(any())).thenReturn(recipePurchaseOrder);
 
-        Integer recipeId = recipe1.getId();
-        RecipePurchaseOrder returnValue = recipePurchaseOrderService.purchase(recipeId, user);
+        RecipePurchaseOrder returnValue = recipePurchaseOrderService.purchase(recipe1.getName(), user);
 
         assertEquals(recipePurchaseOrder, returnValue);
     }
@@ -96,12 +95,11 @@ class RecipePurchaseOrderServiceTest {
     void tryToRecipePurchaseWithMissingIngredientInStock() {
         String expectedErrorMsg = "Ingredient not available.";
         List<Batch> emptyBatchList = new ArrayList<>();
-        Integer recipeId = recipe1.getId();
 
         Mockito.when(recipeService.findById(any())).thenReturn(recipe1);
         Mockito.when(batchService.findBatchesByProductIdAndCurrentQuantityGreaterThanEqual(any(),any())).thenReturn(emptyBatchList);
 
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> recipePurchaseOrderService.purchase(recipeId, user));
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> recipePurchaseOrderService.purchase(recipe1.getName(), user));
 
         assertEquals(expectedErrorMsg, exception.getMessage());
     }

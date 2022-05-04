@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface IRecipePurchaseOrderService {
 
-    RecipePurchaseOrder purchase(Integer recipeId, User userLogged);
+    RecipePurchaseOrder purchase(String recipeName, User userLogged);
 
     BigDecimal calculateTotalPrice(PurchaseOrder purchaseOrder);
 

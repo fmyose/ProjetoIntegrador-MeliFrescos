@@ -36,9 +36,10 @@ public class RecipePurchaseOrderService implements IRecipePurchaseOrderService {
     IPurchaseOrderService purchaseOrderService;
 
     @Override
-    public RecipePurchaseOrder purchase(Integer recipeId, User userLogged) {
+    public RecipePurchaseOrder purchase(String recipeName, User userLogged) {
 
-        Recipe recipe = recipeService.findById(recipeId);
+        //Recipe recipe = recipeService.findById(recipeId);
+        Recipe recipe = recipeService.findByName(recipeName);
 
         // para cada ingrediente, ver se existe um batch que satisfaz a compra
         List<ProductsCart> productsCarts = new ArrayList<>();

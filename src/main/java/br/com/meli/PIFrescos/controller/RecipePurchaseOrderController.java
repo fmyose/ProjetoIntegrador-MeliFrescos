@@ -28,8 +28,8 @@ public class RecipePurchaseOrderController {
     private TokenService tokenService;
 
     @PostMapping("")
-    public ResponseEntity<TotalPriceDTO> purchase(@RequestParam Integer recipeId) {
-        RecipePurchaseOrder recipePurchaseOrder = recipePurchaseOrderService.purchase(recipeId, tokenService.getUserLogged());
+    public ResponseEntity<TotalPriceDTO> purchase(@RequestParam String recipeName) {
+        RecipePurchaseOrder recipePurchaseOrder = recipePurchaseOrderService.purchase(recipeName, tokenService.getUserLogged());
 
         return new ResponseEntity<>(new TotalPriceDTO(recipePurchaseOrder.getTotalPrice()), HttpStatus.CREATED);
     }

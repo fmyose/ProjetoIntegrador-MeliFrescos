@@ -52,4 +52,12 @@ public class RecipeService implements IRecipeService {
         return recipe.get();
     }
 
+    @Override
+    public Recipe findByName(String recipeName) {
+        Optional<Recipe> recipe = recipeRepository.findByName(recipeName);
+        if (!recipe.isPresent()) {
+            throw new RuntimeException("Recipe not found.");
+        }
+        return recipe.get();
+    }
 }
