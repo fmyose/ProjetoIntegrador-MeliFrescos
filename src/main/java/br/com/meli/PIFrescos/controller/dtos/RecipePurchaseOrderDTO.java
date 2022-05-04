@@ -21,13 +21,13 @@ public class RecipePurchaseOrderDTO {
    private String recipeName;
    private BigDecimal totalPrice;
 
-   private List<IngredientForm> ingredients;
+   private List<RecipeIngredientDTO> ingredients;
 
 
    public static RecipePurchaseOrderDTO convert(RecipePurchaseOrder recipePurchaseOrder) {
       return RecipePurchaseOrderDTO.builder()
               .recipeName(recipePurchaseOrder.getRecipe().getName())
-              .ingredients(IngredientForm.convertToDTO(recipePurchaseOrder.getRecipe().getIngredients()))
+              .ingredients(RecipeIngredientDTO.convertToDTO(recipePurchaseOrder.getRecipe().getIngredients()))
               .totalPrice(recipePurchaseOrder.getTotalPrice())
               .build();
    }

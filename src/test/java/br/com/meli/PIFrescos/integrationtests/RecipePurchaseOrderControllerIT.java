@@ -146,13 +146,13 @@ public class RecipePurchaseOrderControllerIT {
         Integer recipeId = recipe1.getId();
 
         Mockito.when(userRepository.findById(any())).thenReturn(Optional.ofNullable(userMock));
-        Mockito.when(recipeService.findById(recipeId)).thenReturn(recipe1);
+        Mockito.when(recipeService.findByName(recipe1.getName())).thenReturn(recipe1);
         Mockito.when(batchService.findBatchesByProductIdAndCurrentQuantityGreaterThanEqual(any(), any())).thenReturn(batchList1);
         Mockito.when(purchaseOrderService.save(any())).thenReturn(purchaseOrder1);
         Mockito.when(recipePurchaseOrderRepository.save(any())).thenReturn(recipePurchaseOrder1);
 
         mockMvc.perform(post("/fresh-products/recipe/purchase")
-                .queryParam("recipeId", String.valueOf(recipeId))
+                .queryParam("recipeName", recipe1.getName())
                 .header("Authorization", accessToken))
                 .andExpect(status().isCreated())
                 .andReturn();
