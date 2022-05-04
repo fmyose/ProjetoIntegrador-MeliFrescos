@@ -4,6 +4,7 @@ import br.com.meli.PIFrescos.models.RecipeIngredient;
 import br.com.meli.PIFrescos.models.Product;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class IngredientForm {
 
     private Integer productId;

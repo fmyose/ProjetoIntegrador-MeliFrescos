@@ -1,5 +1,6 @@
 package br.com.meli.PIFrescos.controller;
 
+import br.com.meli.PIFrescos.controller.dtos.RecipeDTO;
 import br.com.meli.PIFrescos.controller.forms.RecipeForm;
 import br.com.meli.PIFrescos.models.Recipe;
 import br.com.meli.PIFrescos.service.interfaces.IRecipeService;
@@ -25,28 +26,28 @@ public class RecipeController {
     private IRecipeService recipeService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<Recipe>> getAll() {
+    public ResponseEntity<List<RecipeDTO>> getAll() {
         List<Recipe> recipes = recipeService.getAll();
-        return ResponseEntity.ok(recipes);
+        return ResponseEntity.ok(RecipeDTO.convert(recipes));
     }
 
     @PostMapping("")
-    public ResponseEntity<Recipe> create(@RequestBody RecipeForm recipeForm) {
+    public ResponseEntity<RecipeDTO> create(@RequestBody RecipeForm recipeForm) {
         Recipe recipe = RecipeForm.convert(recipeForm);
 
         recipeService.save(recipe);
 
-        return new ResponseEntity<>(recipe, HttpStatus.CREATED);
+        return new ResponseEntity<>(RecipeDTO.convert(recipe), HttpStatus.CREATED);
     }
 
     @PutMapping("")
-    public ResponseEntity<Recipe> update(@RequestParam Integer recipeId,
+    public ResponseEntity<RecipeDTO> update(@RequestParam Integer recipeId,
                                          @RequestBody RecipeForm recipeForm) {
         Recipe recipeNewValues = RecipeForm.convert(recipeForm);
 
         Recipe updatedRecipe = recipeService.update(recipeId, recipeNewValues);
 
-        return new ResponseEntity<>(updatedRecipe, HttpStatus.CREATED);
+        return new ResponseEntity<>(RecipeDTO.convert(updatedRecipe), HttpStatus.CREATED);
     }
 
     @DeleteMapping("")

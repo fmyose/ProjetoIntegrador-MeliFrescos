@@ -1,5 +1,6 @@
 package br.com.meli.PIFrescos.integrationtests;
 
+import br.com.meli.PIFrescos.controller.dtos.RecipeDTO;
 import br.com.meli.PIFrescos.controller.dtos.TokenDto;
 import br.com.meli.PIFrescos.controller.forms.IngredientForm;
 import br.com.meli.PIFrescos.controller.forms.RecipeForm;
@@ -115,9 +116,9 @@ public class RecipeControllerIT {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        TypeReference<List<Recipe>> typeReference = new TypeReference<List<Recipe>>() {};
+        TypeReference<List<RecipeDTO>> typeReference = new TypeReference<List<RecipeDTO>>() {};
 
-        List<Recipe> returnList = objectMapper.readValue(result.getResponse().getContentAsString(), typeReference);
+        List<RecipeDTO> returnList = objectMapper.readValue(result.getResponse().getContentAsString(), typeReference);
 
         assertEquals(recipes.size(), returnList.size());
     }
@@ -135,7 +136,7 @@ public class RecipeControllerIT {
                 .andExpect(status().isCreated())
                 .andReturn();
 
-        Recipe returnValue = objectMapper.readValue(result.getResponse().getContentAsString(), Recipe.class);
+        RecipeDTO returnValue = objectMapper.readValue(result.getResponse().getContentAsString(), RecipeDTO.class);
 
         assertEquals(recipe1.getName(), returnValue.getName());
         assertEquals(recipe1.getIngredients().size(), returnValue.getIngredients().size());
@@ -161,7 +162,7 @@ public class RecipeControllerIT {
                 .andExpect(status().isCreated())
                 .andReturn();
 
-        Recipe returnValue = objectMapper.readValue(result.getResponse().getContentAsString(), Recipe.class);
+        RecipeDTO returnValue = objectMapper.readValue(result.getResponse().getContentAsString(), RecipeDTO.class);
 
         assertEquals(newName, returnValue.getName());
     }
