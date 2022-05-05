@@ -10,7 +10,14 @@ Quando um usuário adiciona produtos ao carrinho de compra, é necessário que e
 produto por produto. Esta sulução propõe que o usuário possa escolher uma receita e todos 
 os ingredientes necessários para isso é adicionado ao carrinho de uma vez.
 
-Vide [abaixo][#instruções-para-a-instalação:] para a execução do projeto.
+####Execução
+* [Postman collection](https://github.com/fmyose/ProjetoIntegrador-MeliFrescos/blob/feature/requisito6/src/main/resources/Recipe.postman_collection.json)
+* Vide [Características e Tecnologias](#características-e-tecnologias) abaixo para a execução do projeto.
+
+#### Diagrama com o requisito 6
+Em destaque (verde) temos as entidades que pertence a este requisito.
+![Diagrama](https://user-images.githubusercontent.com/101267133/167029661-be37ce80-2f47-4fb4-887e-aef572b91c6d.png)
+
 
 
 ## 2. ProjetoIntegrador
