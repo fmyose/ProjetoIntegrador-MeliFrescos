@@ -35,9 +35,9 @@ public class RecipeController {
     public ResponseEntity<RecipeDTO> create(@RequestBody RecipeForm recipeForm) {
         Recipe recipe = RecipeForm.convert(recipeForm);
 
-        recipeService.save(recipe);
+        Recipe savedRecipe = recipeService.save(recipe);
 
-        return new ResponseEntity<>(RecipeDTO.convert(recipe), HttpStatus.CREATED);
+        return new ResponseEntity<>(RecipeDTO.convert(savedRecipe), HttpStatus.CREATED);
     }
 
     @PutMapping("")

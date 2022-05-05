@@ -17,10 +17,10 @@ import java.util.stream.Collectors;
 public class RecipeDTO {
 
     private String name;
-    private List<IngredientForm> ingredients;
+    private List<RecipeIngredientDTO> ingredients;
 
     public static RecipeDTO convert(Recipe recipe) {
-        return new RecipeDTO(recipe.getName(), IngredientForm.convertToDTO(recipe.getIngredients()));
+        return new RecipeDTO(recipe.getName(), RecipeIngredientDTO.convertToDTO(recipe.getIngredients()));
     }
 
     public static List<RecipeDTO> convert(List<Recipe> recipes) {

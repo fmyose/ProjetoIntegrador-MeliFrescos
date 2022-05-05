@@ -1,5 +1,6 @@
 package br.com.meli.PIFrescos.service;
 
+import br.com.meli.PIFrescos.models.Product;
 import br.com.meli.PIFrescos.models.Recipe;
 import br.com.meli.PIFrescos.repository.RecipeRepository;
 import br.com.meli.PIFrescos.service.interfaces.IRecipeService;
@@ -15,6 +16,9 @@ public class RecipeService implements IRecipeService {
     @Autowired
     RecipeRepository recipeRepository;
 
+    @Autowired
+    ProductService productService;
+
     @Override
     public List<Recipe> getAll() {
         return recipeRepository.findAll();
@@ -22,7 +26,22 @@ public class RecipeService implements IRecipeService {
 
     @Override
     public Recipe save(Recipe recipe) {
+        recipe = updateRecipeIngredientsProductInfo(recipe);
         return recipeRepository.save(recipe);
+    }
+
+    /**
+     * Procura os produtos que consta na lista de ingrediente e preenche os valores nulos.
+     * Não é critico, apenas para que o DTO retorne a lista de ingrediente com o nome.
+     * @param recipe
+     * @return
+     */
+    public Recipe updateRecipeIngredientsProductInfo(Recipe recipe) {
+        recipe.getIngredients().forEach(ingredient -> {
+            Product product = productService.findProductById(ingredient.getProduct().getProductId());
+            ingredient.setProduct(product);
+        });
+        return recipe;
     }
 
     @Override

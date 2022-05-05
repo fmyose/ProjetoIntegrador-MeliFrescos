@@ -1,6 +1,9 @@
 package br.com.meli.PIFrescos.service;
 
+import br.com.meli.PIFrescos.models.Product;
 import br.com.meli.PIFrescos.models.Recipe;
+import br.com.meli.PIFrescos.models.RecipeIngredient;
+import br.com.meli.PIFrescos.models.StorageType;
 import br.com.meli.PIFrescos.repository.RecipeRepository;
 import br.com.meli.PIFrescos.service.interfaces.IRecipeService;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,11 +15,13 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -25,11 +30,21 @@ class RecipeServiceTest {
     @Mock
     RecipeRepository recipeRepository;
 
+    @Mock
+    ProductService productService;
+
     @InjectMocks
     RecipeService recipeService;
 
-    private Recipe recipe1 = new Recipe(1, "recipe 1", new ArrayList<>());
-    private Recipe recipe2 = new Recipe(2, "recipe 2", new ArrayList<>());
+    private Product product1 = new Product(1, "product 1",StorageType.FRESH, "product 1 description");
+    private Product product2 = new Product(2, "product 2",StorageType.FRESH, "product 2 description");
+    private Product product3 = new Product(3, "product 3",StorageType.FRESH, "product 3 description");
+    private RecipeIngredient ingredient1 = new RecipeIngredient(1, product1, 1);
+    private RecipeIngredient ingredient2 = new RecipeIngredient(2, product2, 2);
+    private RecipeIngredient ingredient3 = new RecipeIngredient(3, product3, 3);
+    private List<RecipeIngredient> ingredients = new ArrayList<>(Arrays.asList(ingredient1, ingredient2));
+    private Recipe recipe1 = new Recipe(1, "recipe 1", ingredients);
+    private Recipe recipe2 = new Recipe(2, "recipe 2", ingredients);
 
     @BeforeEach
     void setUp() {
@@ -61,11 +76,12 @@ class RecipeServiceTest {
     @Test
     void update() {
         Integer id = recipe1.getId();
-        Recipe newValues = new Recipe(null, "new name", null);
+        ingredients.add(ingredient3);
+        Recipe newValues = new Recipe(null, "new name", ingredients);
 
         Mockito.when(recipeRepository.findById(id)).thenReturn(Optional.of(recipe1));
         Mockito.when(recipeRepository.save(recipe1)).thenReturn(recipe1);
-
+        Mockito.when(productService.findProductById(any())).thenReturn(product1);
         Recipe returnValue = recipeService.update(id, newValues);
 
         assertEquals(id, returnValue.getId());
