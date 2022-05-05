@@ -1,5 +1,19 @@
 # ProjetoIntegrador - Mercado Livre: Frescos
 
+Este documento está dividido em duas partes, 1. Requisito 6 e o 2. ProjetoIntegrador.
+
+## 1.Requisito 6
+### Nome: Receita
+Este requisito tem como proposta a realização de compras atráves de um "livro de receita".
+
+Quando um usuário adiciona produtos ao carrinho de compra, é necessário que ele selecione 
+produto por produto. Esta sulução propõe que o usuário possa escolher uma receita e todos 
+os ingredientes necessários para isso é adicionado ao carrinho de uma vez.
+
+Vide [abaixo][#instruções-para-a-instalação:] para a execução do projeto.
+
+
+## 2. ProjetoIntegrador
 
 Este Projeto Integrador se destina a simular uma nova modalidade de armazenamento, transporte e comercialização de produtos frescos, congelados e refrigerados do Mercado Livre através de uma API REST em Java com Spring Boot e suas respectivas dependências.
 
