@@ -14,4 +14,5 @@ public interface IBatchService {
     Batch updateCurrentQuantity(Integer quantity, Batch batch);
     List<Batch> findBatchesOrderBy(Integer days, String category, String order);
     List<Batch> findBatchesByDueDateGreaterThanEqualAndSectorEquals(Integer expiringLimit, Integer sectionId);
+    List<Batch> findBatchesByProductIdAndCurrentQuantityGreaterThanEqual(Integer productId, Integer quantity);
 }

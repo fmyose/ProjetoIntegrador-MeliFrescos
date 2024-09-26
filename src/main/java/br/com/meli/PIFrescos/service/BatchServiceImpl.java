@@ -87,6 +87,11 @@ public class BatchServiceImpl implements IBatchService {
         return batches;
     }
 
+    @Override
+    public List<Batch> findBatchesByProductIdAndCurrentQuantityGreaterThanEqual(Integer productId, Integer quantity) {
+        return batchRepository.findBatchesByProduct_ProductIdAndCurrentQuantityGreaterThanEqual(productId, quantity);
+    }
+
     /**
      * Atualiza o a CurrentQuantity do Batch de acordo com a quantidade do ProductCart enviada por parametro.
      * @param quantity, batch

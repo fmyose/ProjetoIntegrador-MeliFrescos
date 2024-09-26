@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 
+import java.util.ArrayList;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.math.BigDecimal;
 import java.util.List;
@@ -42,18 +44,53 @@ public class PurchaseOrderService implements IPurchaseOrderService {
         try {
             oldPurchaseOrder = getPurchaseOrderByUserIdAndStatusIsOpened(purchaseOrder.getUser().getId());
             purchaseOrder.setId(oldPurchaseOrder.getId());
+            purchaseOrder.getCartList().addAll(oldPurchaseOrder.getCartList());
         } catch (EntityNotFoundException e) {
             System.out.println("Creating new purchaseorder");
         }
+
         //encontrar o batch
         purchaseOrder.getCartList().forEach(productsCart -> {
             Integer batchNumber = productsCart.getBatch().getBatchNumber();
             Batch batch = batchService.findByBatchNumber(batchNumber);
             productsCart.setBatch(batch);
         });
+
+        // unifica ProductsCart de batches iguais, caso tenha
+        List<ProductsCart> fixedProductsCart = dedupProductCartList(purchaseOrder.getCartList());
+        purchaseOrder.setCartList(fixedProductsCart);
         validProductList(purchaseOrder);
 
+        // PurchaseOrder fromDB = getPurchaseOrderByUserIdAndStatusIsOpened(purchaseOrder.getUser().getId());
         return purchaseOrderRepository.save(purchaseOrder);
+    }
+
+    /**
+     * É possivel que o carrinho de compra venha com o mesmo batch em campos diferentes
+     * quando diversos envios de compra é realizado, mostrando ProductsCart de um mesmo batch varias vezes
+     * com quantidade diferente.
+     * Este metodo remove essa repetiçao unificando os batches iguais.
+     * @param productsCartList
+     * @return List<ProductCart> sem batch repetido.
+     */
+    private List<ProductsCart> dedupProductCartList(List<ProductsCart> productsCartList) {
+        List<ProductsCart> fixedProductCartList = new ArrayList<>();
+        Set<Batch> batches = productsCartList.stream().map(productsCart -> productsCart.getBatch()).collect(Collectors.toSet());
+
+        batches.forEach(batch -> {
+            // pegar ProductsCart com batches iguais
+            List<ProductsCart> productsCarts = productsCartList.stream().filter(productsCart -> productsCart.getBatch().getBatchNumber() == batch.getBatchNumber())
+                    .collect(Collectors.toList());
+            // somar a quantidade
+            Integer totalQuantity = productsCarts.stream().mapToInt(productCart -> productCart.getQuantity()).sum();
+            ProductsCart productsCart = new ProductsCart();
+            productsCart.setQuantity(totalQuantity);
+            productsCart.setBatch(batch);
+
+            fixedProductCartList.add(productsCart);
+        });
+
+        return fixedProductCartList;
     }
 
     public void validProductList(PurchaseOrder purchaseOrder) {
@@ -186,8 +223,7 @@ public class PurchaseOrderService implements IPurchaseOrderService {
     @Transactional
     @Override
     public PurchaseOrder updateCartList(PurchaseOrder newPurchaseOrder) {
-        validProductList(newPurchaseOrder);
-        return purchaseOrderRepository.save(newPurchaseOrder);
+        return save(newPurchaseOrder);
     }
 
     @Override
